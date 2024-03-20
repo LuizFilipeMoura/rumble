@@ -1,4 +1,5 @@
 
+
 export const calculatesPosition = (previous, speed, direction) => {
     let newPosition = {...previous}
     switch (direction){

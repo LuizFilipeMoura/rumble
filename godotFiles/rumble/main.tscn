@@ -1,13 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbb2a3qk3gh3x"]
+[gd_scene load_steps=2 format=3 uid="uid://cbb2a3qk3gh3x"]
 
-[ext_resource type="PackedScene" uid="uid://pxrwrrgtyo6s" path="res://warrior.tscn" id="1_f4sqm"]
 [ext_resource type="Script" path="res://Example.gd" id="3_s1t0v"]
 
 [node name="Main" type="Node2D"]
 position = Vector2(-1, 1)
 
-[node name="Warrior" parent="." instance=ExtResource("1_f4sqm")]
-position = Vector2(363, 433)
-
-[node name="Example" type="Node2D" parent="."]
+[node name="Socket" type="Node2D" parent="."]
 script = ExtResource("3_s1t0v")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 99.0
+offset_top = 572.0
+offset_right = 164.0
+offset_bottom = 603.0
+text = "SPAWN"
+
+[connection signal="pressed" from="Button" to="Socket" method="_on_button_pressed"]

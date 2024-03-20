@@ -2,8 +2,9 @@
 import express from 'express';
 import http from 'http'
 import {Server} from "socket.io"
-import {state} from "./state/state.mjs";
-import {calculatesPosition} from "./functions/movement.mjs";
+import {state} from "./state/state.js";
+import {spawn} from "./functions/spawn.js";
+import {updatesState} from "./state/updatesState.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -16,22 +17,19 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
-    let x = 0;
-    let y = 0;
-    let direction = "right"
+
+    socket.on("spawn", (data) => {
+        const {unit_name} = data;
+        spawn(unit_name)
+    })
 
     setInterval(() => {
-        state.warrior.position = calculatesPosition(state.warrior.position, 50, direction)
-        if(state.warrior.position.x > 200){
-            direction = "down"
-        }
-        console.log(state)
         socket.emit("state", JSON.stringify(
             state
         ), (response) => {
             console.log(response); // "got it"
         });
+        updatesState()
     }, 1000)
 });
 
