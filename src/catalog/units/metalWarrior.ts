@@ -1,6 +1,10 @@
-import {InstancedUnit} from "../../models/unit.js";
+import {ATTACK_RADIUS, InstancedUnit} from "../../models/unit.js";
 import {Position} from "../../models/position.js";
 
+const maxHealth = 100
+const damageByAttack = 50;
+const speed = 100;
+const attackSpeed = 3;
 export class MetalWarriorTypeUnit implements InstancedUnit {
     id: string = "";
     position: Position = {
@@ -9,5 +13,11 @@ export class MetalWarriorTypeUnit implements InstancedUnit {
         isFlying: false
     };
     name = "metal_warrior";
-    speed = 100;
+    speed = speed;
+    health = maxHealth;
+    damage = damageByAttack;
+    maxHealth = maxHealth;
+    attackRadius = ATTACK_RADIUS.meele;
+    attackSpeed = attackSpeed;
+    ticksUntilNextAttack = 0;
 }

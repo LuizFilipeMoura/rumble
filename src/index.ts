@@ -19,9 +19,20 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
 
     socket.on("spawn", (data) => {
-        const {unit_name} = data;
-        spawn(unit_name)
+        const {unit_name, player} = data;
+        spawn({unitName: unit_name, player})
     })
+    const playerUnit = spawn({unitName: "metal_warrior", player: 1})
+    const enemyUnit = spawn({unitName: "metal_warrior", player: 2})
+    enemyUnit.damage = 1
+    enemyUnit.attackRadius = 0;
+    enemyUnit.health = 100;
+    enemyUnit.position.y = 150
+    enemyUnit.position.x = 550
+
+    playerUnit.position.x = 100
+    playerUnit.position.y = 100
+
 
     setInterval(() => {
         socket.emit("state", JSON.stringify(
