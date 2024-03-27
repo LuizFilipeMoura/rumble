@@ -4,7 +4,8 @@
   "compilerOptions": {
     "allowJs": true,
     "noImplicitAny": false,
-    "outDir": "dist"
+    "outDir": "dist",
+    "strictPropertyInitialization": false
   },
   "watchOptions": {
     "watchFile": "useFsEvents",

@@ -11,7 +11,7 @@ type spawnTypes = {
 export const spawn = ({ unitName, player, spawnPoint }: spawnTypes) => {
   let unit;
   if (unitName === 'metal_warrior') {
-    unit = new MetalWarriorTypeUnit(player);
+    unit = new MetalWarriorTypeUnit(player, spawnPoint);
   }
   state.units[unit.id] = unit;
   return state.units[unit.id] as InstancedUnit;

@@ -16,6 +16,9 @@ func _physics_process(delta):
 	else:
 		position = target
 
+func _ready():
+	target = Vector2(position.x, position.y)
+	
 func goToPosition(x, y, _speed):
 	target = Vector2(x, y)
 	speed = _speed

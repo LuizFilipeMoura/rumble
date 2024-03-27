@@ -27,7 +27,7 @@ state.players[player.id] = player;
 state.players[enemy.id] = enemy;
 
 const playerPosition = new Position(100, 100);
-const enemyPosition = new Position(100, 800);
+const enemyPosition = new Position(100, 400);
 
 const playerUnit = spawn({
   unitName: 'metal_warrior',
@@ -39,14 +39,8 @@ const enemyUnit = spawn({
   player: enemy.id,
   spawnPoint: enemyPosition,
 });
-enemyUnit.damage = 1;
-enemyUnit.attackRadius = 0;
-enemyUnit.health = 100;
-enemyUnit.position.y = 150;
-enemyUnit.position.x = 550;
 
-playerUnit.position.x = 100;
-playerUnit.position.y = 100;
+enemyUnit.canAttack = false
 
 io.on('connection', (socket) => {
   socket.on('spawn', (data) => {

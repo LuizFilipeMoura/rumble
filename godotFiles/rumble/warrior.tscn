@@ -11,6 +11,8 @@ radius = 18.0
 height = 82.0
 
 [node name="Warrior" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_r534a")
 
 [node name="AttackRadius" type="Sprite2D" parent="."]

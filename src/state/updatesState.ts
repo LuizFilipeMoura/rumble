@@ -10,36 +10,41 @@ const moveUnits = () => {
   for (let [i, unit] of Object.entries(state.units)) {
     const unit = state.units[i] as InstancedUnit;
     const { standardDirection } = state.players[unit.ownerPlayer];
-    unit.position = calculatesPosition(
-      unit.position,
-      unit.speed,
-      standardDirection
-    );
+    if(unit.canMove){
+      unit.position = calculatesPosition(
+        unit.position,
+        unit.speed,
+        standardDirection
+      );
+    }
   }
 };
+const verifyAttacks = (unit, enemyWithinRange) => {
+  if (unit.ticksUntilNextAttack <= 0) {
+    console.log('initiates attack;');
+    initiatesAttack(unit, enemyWithinRange);
+  } else {
+    unit.ticksUntilNextAttack--;
+    console.log('did not attack', unit.ticksUntilNextAttack);
+  }
+}
 const verifyIfEnemiesAreWithinRange = () => {
   for (let [i, unit] of Object.entries(state.units)) {
     const unit = state.units[i] as InstancedUnit;
     if (!unit) continue;
     const enemyWithinRange = hasEnemyUnitWithinRange(unit);
-    if (enemyWithinRange) {
-      // console.log("attacking", enemyWithinRange)
-      console.log(
-        unit.id,
-        'unit.ticksUntilNextAttack',
-        unit.ticksUntilNextAttack
-      );
 
-      if (unit.ticksUntilNextAttack <= 0) {
-        console.log('initiates attack;');
-        initiatesAttack(unit, enemyWithinRange);
-      } else {
-        unit.ticksUntilNextAttack--;
-        console.log('did not attack', unit.ticksUntilNextAttack);
-      }
+    if(enemyWithinRange) {
+      unit.canMove = false;
+    } else {
+      unit.canMove = true
+    }
+    if (enemyWithinRange && unit.canAttack) {
+      verifyAttacks(unit, enemyWithinRange)
     }
   }
 };
+
 export const updatesState = () => {
   moveUnits();
   verifyIfEnemiesAreWithinRange();

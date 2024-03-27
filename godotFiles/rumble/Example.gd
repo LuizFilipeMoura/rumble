@@ -76,7 +76,7 @@ func on_socket_event(event_name: String, payload: Variant, _name_space):
 			var instance = get_parent().get_node(serverUnit.id)
 
 			#
-			if(abs(serverUnit.position.x - instance.position.x) > 5 || abs(serverUnit.position.y - instance.position.y) > 5):
+			if(abs(serverUnit.position.x - instance.position.x) > 50 || abs(serverUnit.position.y - instance.position.y) > 50):
 				instance.position = Vector2(serverUnit.position.x, serverUnit.position.y)
 			instance.goToPosition(serverUnit.position.x,serverUnit.position.y, serverUnit.speed)
 			rendersHealthBar(instance, serverUnit)
