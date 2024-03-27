@@ -2,24 +2,19 @@
 
 [ext_resource type="Texture2D" uid="uid://bnk1oo4a42lvd" path="res://red.png" id="1_0vb4d"]
 [ext_resource type="Texture2D" uid="uid://1mv1amhepe3w" path="res://sprites/warriorIdle.png" id="1_6bqhp"]
-[ext_resource type="Script" path="res://CharacterBody2D.gd" id="1_ca8h2"]
+[ext_resource type="Script" path="res://warrior.gd" id="1_r534a"]
+
+[sub_resource type="Theme" id="Theme_mawyb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_prl72"]
 radius = 18.0
 height = 82.0
 
-[sub_resource type="Theme" id="Theme_mawyb"]
-
-[node name="Warrior" type="Node2D"]
+[node name="Warrior" type="CharacterBody2D"]
+script = ExtResource("1_r534a")
 
 [node name="AttackRadius" type="Sprite2D" parent="."]
 texture = ExtResource("1_0vb4d")
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-script = ExtResource("1_ca8h2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-shape = SubResource("CapsuleShape2D_prl72")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -36,3 +31,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 max_value = 1.0
 value = 1.0
 show_percentage = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_prl72")

@@ -1,0 +1,12 @@
+{
+  "semi": true,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "tabWidth": 2,
+  "bracketSpacing": true,
+  "jsxBracketSameLine": false,
+  "requirePragma": false,
+  "proseWrap": "preserve",
+  "max_line_length": 100,
+  "htmlWhitespaceSensitivity": "css"
+}

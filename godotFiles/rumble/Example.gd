@@ -50,34 +50,37 @@ func spawnUnit(unit):
 
 	instance.position = Vector2(unit.position.x, unit.position.y)
 	instance.name = unit.id
-	
+
 	rendersAttackRadius(instance, unit)
 	rendersHealthBar(instance, unit)
 	get_parent().add_child(instance)
 
+
 func on_socket_event(event_name: String, payload: Variant, _name_space):
 	var data = JSON.parse_string(payload)
-
 	if(data.units):
 		var units = data.units
 		print(unit_dict)
 		for k in units:
 			var serverUnit = units[k]
 			var spawnServerUnit = true
-			
+
 			for key in unit_dict:
 				var clientUnit = unit_dict[key]
 				if(serverUnit.id == clientUnit.id):
 					spawnServerUnit = false
-					
+
 			if(spawnServerUnit):
 				spawnUnit(serverUnit)
-				
+
 			var instance = get_parent().get_node(serverUnit.id)
-			
-			instance.position = Vector2(serverUnit.position.x, serverUnit.position.y)
+
+			#
+			if(abs(serverUnit.position.x - instance.position.x) > 5 || abs(serverUnit.position.y - instance.position.y) > 5):
+				instance.position = Vector2(serverUnit.position.x, serverUnit.position.y)
+			instance.goToPosition(serverUnit.position.x,serverUnit.position.y, serverUnit.speed)
 			rendersHealthBar(instance, serverUnit)
-			
+
 		for key in unit_dict:
 			var clientUnit = unit_dict[key]
 			var killClientUnit = true
@@ -85,12 +88,12 @@ func on_socket_event(event_name: String, payload: Variant, _name_space):
 				var serverUnit = units[k]
 				if(serverUnit.id == clientUnit.id):
 					killClientUnit = false
-					
+
 			if(killClientUnit):
 				var instance = get_parent().get_node(clientUnit.id)
 				instance.queue_free()
 				unit_dict.erase(key)
-				
+
 	client.socketio_send("hello", "world")
 
 

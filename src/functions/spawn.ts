@@ -1,16 +1,18 @@
-import {MetalWarriorTypeUnit} from "../catalog/units/metalWarrior.js";
-import { v4 as uuidv4 } from 'uuid';
-import {state} from "../state/state.js";
-import {InstancedUnit} from "../models/unit.js";
-
-export const spawn = ({unitName, player}) => {
-    let unit;
-    if(unitName === "metal_warrior"){
-        unit = new MetalWarriorTypeUnit()
-        unit.id = uuidv4().substring(0, 7);
-        unit.ownerPlayer = player;
-        unit.position = {...unit.position}
-    }
-    state.units[unit.id] = unit;
-    return state.units[unit.id] as InstancedUnit
-}
+import { MetalWarriorTypeUnit } from "../catalog/units/metalWarrior.js";
+import { v4 as uuidv4 } from "uuid";
+import { state } from "../state/state.js";
+import { InstancedUnit } from "../models/unit.js";
+import { Position } from "../models/position.js";
+type spawnTypes = {
+  unitName: string;
+  player: string;
+  spawnPoint: Position;
+};
+export const spawn = ({ unitName, player, spawnPoint }: spawnTypes) => {
+  let unit;
+  if (unitName === "metal_warrior") {
+    unit = new MetalWarriorTypeUnit(player);
+  }
+  state.units[unit.id] = unit;
+  return state.units[unit.id] as InstancedUnit;
+};
