@@ -1,16 +1,16 @@
 export const calculatesPosition = (previous, speed, direction) => {
   let newPosition = { ...previous };
   switch (direction) {
-    case "up":
+    case 'up':
       newPosition.y -= speed;
       break;
-    case "down":
+    case 'down':
       newPosition.y += speed;
       break;
-    case "left":
+    case 'left':
       newPosition.x -= speed;
       break;
-    case "right":
+    case 'right':
       newPosition.x += speed;
       break;
   }

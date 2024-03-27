@@ -1,8 +1,8 @@
-import { Position } from "./position.js";
+import { Position } from './position.js';
 
 export enum ATTACK_RADIUS {
   meele = 100,
-  ranged = 300
+  ranged = 300,
 }
 
 export interface InstancedUnit {

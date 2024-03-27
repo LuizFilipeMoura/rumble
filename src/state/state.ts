@@ -1,11 +1,11 @@
-import { InstancedUnit } from "../models/unit.js";
-import { calculatesPosition } from "../functions/movement.js";
+import { InstancedUnit } from '../models/unit.js';
+import { calculatesPosition } from '../functions/movement.js';
 
 class State {
   units = {};
   players = {};
 }
-export const ownUnits = player => {
+export const ownUnits = (player) => {
   const resultUnits: InstancedUnit[] = [];
   for (let [i, unit] of Object.entries(state.units)) {
     const unit = state.units[i] as InstancedUnit;
@@ -15,7 +15,7 @@ export const ownUnits = player => {
   }
   return resultUnits;
 };
-export const enemyUnits = player => {
+export const enemyUnits = (player) => {
   const resultUnits: InstancedUnit[] = [];
   for (let [i, unit] of Object.entries(state.units)) {
     const unit = state.units[i] as InstancedUnit;

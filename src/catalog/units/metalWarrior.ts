@@ -1,20 +1,20 @@
-import { ATTACK_RADIUS, InstancedUnit } from "../../models/unit.js";
-import { Position } from "../../models/position.js";
-import { v4 as uuidv4 } from "uuid";
+import { ATTACK_RADIUS, InstancedUnit } from '../../models/unit.js';
+import { Position } from '../../models/position.js';
+import { v4 as uuidv4 } from 'uuid';
 
 const maxHealth = 100;
 const damageByAttack = 50;
 const speed = 1;
 const attackSpeed = 3;
 export class MetalWarriorTypeUnit implements InstancedUnit {
-  id: string = "";
+  id: string = '';
   position: Position = {
     x: 0,
     y: 0,
-    isFlying: false
+    isFlying: false,
   };
 
-  name = "metal_warrior";
+  name = 'metal_warrior';
   speed = speed;
   health = maxHealth;
   damage = damageByAttack;

@@ -1,5 +1,5 @@
-import { InstancedUnit } from "../models/unit.js";
-import { enemyUnits, state } from "../state/state.js";
+import { InstancedUnit } from '../models/unit.js';
+import { enemyUnits, state } from '../state/state.js';
 
 export const hasEnemyUnitWithinRange = (unit: InstancedUnit) => {
   for (let enemyUnit of enemyUnits(unit.ownerPlayer)) {

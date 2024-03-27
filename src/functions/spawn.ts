@@ -1,8 +1,8 @@
-import { MetalWarriorTypeUnit } from "../catalog/units/metalWarrior.js";
-import { v4 as uuidv4 } from "uuid";
-import { state } from "../state/state.js";
-import { InstancedUnit } from "../models/unit.js";
-import { Position } from "../models/position.js";
+import { MetalWarriorTypeUnit } from '../catalog/units/metalWarrior.js';
+import { v4 as uuidv4 } from 'uuid';
+import { state } from '../state/state.js';
+import { InstancedUnit } from '../models/unit.js';
+import { Position } from '../models/position.js';
 type spawnTypes = {
   unitName: string;
   player: string;
@@ -10,7 +10,7 @@ type spawnTypes = {
 };
 export const spawn = ({ unitName, player, spawnPoint }: spawnTypes) => {
   let unit;
-  if (unitName === "metal_warrior") {
+  if (unitName === 'metal_warrior') {
     unit = new MetalWarriorTypeUnit(player);
   }
   state.units[unit.id] = unit;
