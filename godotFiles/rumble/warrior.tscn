@@ -3,8 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bnk1oo4a42lvd" path="res://red.png" id="1_0vb4d"]
 [ext_resource type="Texture2D" uid="uid://1mv1amhepe3w" path="res://sprites/warriorIdle.png" id="1_6bqhp"]
 [ext_resource type="Script" path="res://warrior.gd" id="1_r534a"]
-
-[sub_resource type="Theme" id="Theme_mawyb"]
+[ext_resource type="Texture2D" uid="uid://ddo0e348elfa8" path="res://white.png" id="4_n60l3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_prl72"]
 radius = 18.0
@@ -16,6 +15,7 @@ collision_mask = 0
 script = ExtResource("1_r534a")
 
 [node name="AttackRadius" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_0vb4d")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -23,16 +23,15 @@ texture_filter = 1
 position = Vector2(-9.53674e-07, 1)
 texture = ExtResource("1_6bqhp")
 
-[node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -61.0
-offset_top = -70.0
-offset_right = 65.0
-offset_bottom = -43.0
-theme = SubResource("Theme_mawyb")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-max_value = 1.0
-value = 1.0
-show_percentage = false
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_prl72")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = -50.0
+offset_top = -54.0
+offset_right = 50.0
+offset_bottom = 46.0
+scale = Vector2(1, 0.08)
+value = 100.0
+texture_progress = ExtResource("4_n60l3")
+tint_progress = Color(1, 0, 0, 1)

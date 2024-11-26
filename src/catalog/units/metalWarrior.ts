@@ -3,7 +3,7 @@ import { Position } from '../../models/position.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const maxHealth = 100;
-const damageByAttack = 25;
+const damageByAttack = 15;
 const speed = 20;
 const attackSpeed = 3;
 export class MetalWarriorTypeUnit extends InstancedUnit {

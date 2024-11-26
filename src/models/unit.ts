@@ -19,6 +19,7 @@ export class InstancedUnit {
   attackSpeed: number;
   ticksUntilNextAttack: number = 0;
   canMove: boolean = true;
+  forceStay: boolean = true;
   canAttack: boolean = true;
   constructor(ownerPlayer, spawnPoint) {
     this.id = uuidv4().substring(0, 7);

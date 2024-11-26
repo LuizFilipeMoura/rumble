@@ -6,6 +6,7 @@ var backendURL: String
 var unit_dict = { }
 var metal_warrior_scene = preload("res://warrior.tscn")
 
+var thisPlayer
 
 func _ready():
 	# prepare URL
@@ -30,16 +31,13 @@ func on_socket_connect(_payload: Variant, _name_space, error: bool):
 	else:
 		print("Socket connected")
 
-func rendersAttackRadius(instance, unit):
-	var scale = unit.attackRadius/100
-	instance.get_node("AttackRadius").scale.x = scale
-	instance.get_node("AttackRadius").scale.y = scale
 
-
-func rendersHealthBar(instance, unit):
+func rendersHealthBar(instance, unit, isOwn):
 	var healthBar = instance.get_node("HealthBar")
 	healthBar.max_value = unit.maxHealth
 	healthBar.value = unit.health
+	if(isOwn):
+		healthBar.tint_progress = Color.DODGER_BLUE   
 
 func spawnUnit(unit):
 	unit_dict[unit.id] = unit
@@ -50,51 +48,63 @@ func spawnUnit(unit):
 
 	instance.position = Vector2(unit.position.x, unit.position.y)
 	instance.name = unit.id
-
-	rendersAttackRadius(instance, unit)
-	rendersHealthBar(instance, unit)
+	var isOwn = false
+	if(unit.ownerPlayer == thisPlayer):
+		isOwn = true
+	rendersHealthBar(instance, unit, isOwn)
 	get_parent().add_child(instance)
 
 
 func on_socket_event(event_name: String, payload: Variant, _name_space):
+
+	
 	var data = JSON.parse_string(payload)
-	if(data.units):
-		var units = data.units
-		print(unit_dict)
-		for k in units:
-			var serverUnit = units[k]
-			var spawnServerUnit = true
+	
+
+	if(event_name == "player"):
+		thisPlayer = data.id
+		
+	if(event_name == "state"):
+		if(data.units):
+			var units = data.units
+
+			for k in units:
+				var serverUnit = units[k]
+				var spawnServerUnit = true
+
+				for key in unit_dict:
+					var clientUnit = unit_dict[key]
+					if(serverUnit.id == clientUnit.id):
+						spawnServerUnit = false
+
+				if(spawnServerUnit):
+					spawnUnit(serverUnit)
+
+				var instance = get_parent().get_node(serverUnit.id)
+
+				#
+				if(data.fixPosition):
+					print("fixing position")
+					instance.position = Vector2(serverUnit.position.x, serverUnit.position.y)
+				instance.goToPosition(serverUnit.position.x,serverUnit.position.y, serverUnit.speed)
+				var isOwn = false
+				if(serverUnit.ownerPlayer == thisPlayer):
+					isOwn = true
+				rendersHealthBar(instance, serverUnit, isOwn)
 
 			for key in unit_dict:
 				var clientUnit = unit_dict[key]
-				if(serverUnit.id == clientUnit.id):
-					spawnServerUnit = false
+				var killClientUnit = true
+				for k in units:
+					var serverUnit = units[k]
+					if(serverUnit.id == clientUnit.id):
+						killClientUnit = false
 
-			if(spawnServerUnit):
-				spawnUnit(serverUnit)
+				if(killClientUnit):
+					var instance = get_parent().get_node(clientUnit.id)
+					instance.queue_free()
+					unit_dict.erase(key)
 
-			var instance = get_parent().get_node(serverUnit.id)
-
-			#
-			if(abs(serverUnit.position.x - instance.position.x) > 50 || abs(serverUnit.position.y - instance.position.y) > 50):
-				instance.position = Vector2(serverUnit.position.x, serverUnit.position.y)
-			instance.goToPosition(serverUnit.position.x,serverUnit.position.y, serverUnit.speed)
-			rendersHealthBar(instance, serverUnit)
-
-		for key in unit_dict:
-			var clientUnit = unit_dict[key]
-			var killClientUnit = true
-			for k in units:
-				var serverUnit = units[k]
-				if(serverUnit.id == clientUnit.id):
-					killClientUnit = false
-
-			if(killClientUnit):
-				var instance = get_parent().get_node(clientUnit.id)
-				instance.queue_free()
-				unit_dict.erase(key)
-
-	client.socketio_send("hello", "world")
 
 
 func _on_button_pressed():

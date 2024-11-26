@@ -31,14 +31,11 @@ const verifyAttacks = (unit, enemyWithinRange) => {
 const verifyIfEnemiesAreWithinRange = () => {
   for (let [i, unit] of Object.entries(state.units)) {
     const unit = state.units[i] as InstancedUnit;
+
     if (!unit) continue;
     const enemyWithinRange = hasEnemyUnitWithinRange(unit);
 
-    if(enemyWithinRange) {
-      unit.canMove = false;
-    } else {
-      unit.canMove = true
-    }
+    unit.canMove = !enemyWithinRange;
     if (enemyWithinRange && unit.canAttack) {
       verifyAttacks(unit, enemyWithinRange)
     }

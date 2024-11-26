@@ -34,6 +34,7 @@ const playerUnit = spawn({
   player: player.id,
   spawnPoint: playerPosition,
 });
+playerUnit.canMove = false;
 const enemyUnit = spawn({
   unitName: 'metal_warrior',
   player: enemy.id,
@@ -41,19 +42,22 @@ const enemyUnit = spawn({
 });
 
 enemyUnit.canAttack = false
-
+let packageCounter = 0;
 io.on('connection', (socket) => {
   socket.on('spawn', (data) => {
     const { unit_name, player } = data;
     spawn({ unitName: unit_name, player, spawnPoint: playerPosition });
   });
+  socket.emit("player", JSON.stringify({id: player.id}))
 
   setInterval(() => {
-    socket.emit('state', JSON.stringify(state), (response) => {
+    const fixPosition = packageCounter % 5 === 0
+    socket.emit('state', JSON.stringify({ ...state, fixPosition }), (response) => {
       console.log(response); // "got it"
     });
+    packageCounter++;
     updatesState();
-  }, 1000);
+  }, 200);
 });
 
 server.listen(3000, () => {

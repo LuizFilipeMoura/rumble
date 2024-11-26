@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-var speed = 100
+var speed = 1000
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -18,7 +18,9 @@ func _physics_process(delta):
 
 func _ready():
 	target = Vector2(position.x, position.y)
+	var bar = get_node("HealthBar")
+	print(bar.tint_progress)
 	
 func goToPosition(x, y, _speed):
 	target = Vector2(x, y)
-	speed = _speed
+	speed = _speed * 10
